@@ -1,0 +1,33 @@
+openapi: 3.1.0
+info:
+  title: Bechde Media API
+  version: 0.1.0
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+paths:
+  /media/uploads:
+    post:
+      security: [{ bearerAuth: [] }]
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [contentType, filename]
+              properties:
+                contentType: { type: string }
+                filename: { type: string }
+      responses:
+        '200':
+          description: SAS URL
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  uploadUrl: { type: string, format: uri }
+                  blobUrl: { type: string, format: uri }

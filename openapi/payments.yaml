@@ -1,0 +1,41 @@
+openapi: 3.1.0
+info:
+  title: Bechde Payments API
+  version: 0.1.0
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+paths:
+  /payments/checkout-session:
+    post:
+      security: [{ bearerAuth: [] }]
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [listingId, placementType]
+              properties:
+                listingId: { type: string }
+                placementType: { type: string, enum: [featured, boosted] }
+      responses:
+        '200':
+          description: Stripe Checkout URL
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  url: { type: string, format: uri }
+  /payments/webhook:
+    post:
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: {}
+      responses:
+        '200': { description: Received }
