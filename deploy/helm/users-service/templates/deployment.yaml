@@ -1,0 +1,17 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata: { name: users-service }
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector: { matchLabels: { app: users-service } }
+  template:
+    metadata: { labels: { app: users-service } }
+    spec:
+      containers: [ { name: users-service, image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}", ports: [ { containerPort: 8080 } ] } ]
+---
+apiVersion: v1
+kind: Service
+metadata: { name: users-service }
+spec:
+  selector: { app: users-service }
+  ports: [ { port: {{ .Values.service.port }}, targetPort: 8080 } ]

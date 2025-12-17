@@ -1,0 +1,3 @@
+image: { repository: acrname.azurecr.io/chat-service, tag: latest }
+replicaCount: 2
+service: { port: 80 }
