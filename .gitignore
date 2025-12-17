@@ -1,0 +1,22 @@
+# Java/Maven
+target/
+*.log
+.mvn/
+wrapper/
+
+# Node
+node_modules/
+dist/
+
+# Flutter
+.build/
+.dart_tool/
+.pub-cache/
+
+# IDEs
+.idea/
+.vscode/
+*.iml
+
+# OS
+.DS_Store

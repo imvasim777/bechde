@@ -1,0 +1,4 @@
+global:
+  imageRegistry: acr.example.com
+  namespace: bechde-dev
+  ingressHost: bechde-dev.example.com
