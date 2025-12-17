@@ -1,0 +1,15 @@
+server:
+  port: 8080
+spring:
+  cloud:
+    gateway:
+      routes:
+        - id: listings
+          uri: http://listings-service:8080
+          predicates:
+            - Path=/listings/**
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info

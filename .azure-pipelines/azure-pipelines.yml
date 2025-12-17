@@ -1,13 +1,14 @@
-trigger:
-  branches:
-    include:
-      - main
-
+trigger: { branches: { include: [ main ] } }
+pool: { vmImage: 'ubuntu-latest' }
+variables: { JDK_VERSION: '17', ACR_NAME: 'youracr', AKS_NAMESPACE: 'bechde-dev' }
 stages:
-  - stage: Info
+  - stage: Build_Test
     jobs:
-      - job: Echo
-        pool:
-          vmImage: 'ubuntu-latest'
+      - job: MavenBuild
         steps:
-          - script: echo "Bechde CI will be wired with coverage gates in next PRs."
+          - task: JavaToolInstaller@0
+            inputs: { versionSpec: '$(JDK_VERSION)', jdkArchitectureOption: 'x64' }
+          - script: |
+              cd services/listings-service
+              mvn -B -DskipTests=false clean verify
+            displayName: 'Build + Test (Jacoco >=80%)'
