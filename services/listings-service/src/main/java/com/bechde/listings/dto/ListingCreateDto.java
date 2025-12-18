@@ -1,12 +1,18 @@
 package com.bechde.listings.dto;
-import jakarta.validation.constraints.*;
+
+import jakarta.validation.constraints.DecimalMin;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
+import java.math.BigDecimal;
+
 public record ListingCreateDto(
-    @Size(min=10, max=120) String title,
-    @Size(min=20, max=5000) String description,
-    @PositiveOrZero double priceAmount,
-    @Pattern(regexp="USD|INR|EUR") String priceCurrency,
-    @Pattern(regexp="electronics|furniture|vehicles|other") String category,
-    @Size(min=2, max=80) String city,
+    @NotBlank @Size(min=10, max=120) String title,
+    @NotBlank @Size(min=20, max=5000) String description,
+    @NotNull @DecimalMin("0.0") BigDecimal priceAmount,
+    @NotBlank String currency,
+    @NotBlank String category,
+    @NotBlank String city,
     Double lat,
     Double lon
 ) {}

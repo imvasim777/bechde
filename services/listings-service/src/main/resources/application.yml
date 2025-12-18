@@ -1,21 +1,19 @@
-spring:
-  datasource:
-    url: ${DB_URL:jdbc:postgresql://localhost:5432/bechde}
-    username: ${DB_USER:bechde}
-    password: ${DB_PASS:bechde}
-  jpa:
-    hibernate:
-      ddl-auto: validate
-    properties:
-      hibernate.default_schema: listings
-  flyway:
-    enabled: true
-    create-schemas: true
-    schemas: listings
 server:
-  port: ${PORT:8081}
-management:
-  endpoints:
-    web:
-      exposure:
-        include: health,info
+  port: 8081
+
+spring:
+  application:
+    name: listings-service
+  jackson:
+    serialization:
+      WRITE_DATES_AS_TIMESTAMPS: false
+  # Assuming H2 for dev based on previous context, or Postgres if configured
+  datasource:
+    url: jdbc:h2:mem:listingsdb
+    driverClassName: org.h2.Driver
+    username: sa
+    password: password
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    hibernate:
+      ddl-auto: update
