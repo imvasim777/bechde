@@ -15,7 +15,8 @@ class ListingResponseMapper {
             l.getCity(),
             l.getLat(),
             l.getLon(),
-            l.getStatus() != null ? l.getStatus().name() : "ACTIVE",
+            // Fix: l.getStatus() is a String, so we don't need .name()
+            l.getStatus(),
             l.getSlug(),
             l.getPublishedAt()
         );

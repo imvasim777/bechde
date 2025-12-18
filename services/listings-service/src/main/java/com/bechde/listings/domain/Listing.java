@@ -1,70 +1,72 @@
 package com.bechde.listings.domain;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 import java.util.UUID;
 
 @Entity
 @Table(name = "listings")
 public class Listing {
-
     @Id
-    private UUID id = UUID.randomUUID();
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private UUID id;
 
     private String title;
-
-    @Column(length = 5000, nullable = false)
     private String description;
 
-    @Column(name = "price_amount", nullable = false)
-    private double priceAmount;
-
-    @Column(name = "price_currency", length = 3, nullable = false)
-    private String priceCurrency;
+    // Using BigDecimal for money is best practice
+    private BigDecimal priceAmount;
+    private String currency;
 
     private String category;
     private String city;
     private Double lat;
     private Double lon;
 
-    private String status = "draft";
+    // Storing status as String to avoid Enum mapping issues for now
+    private String status;
     private String slug;
-
     private OffsetDateTime publishedAt;
 
-    @Column(name = "created_at", nullable = false)
-    private OffsetDateTime createdAt = OffsetDateTime.now();
+    // Getters and Setters
+    public UUID getId() { return id; }
+    public void setId(UUID id) { this.id = id; }
 
-    @Column(name = "updated_at", nullable = false)
-    private OffsetDateTime updatedAt = OffsetDateTime.now();
+    public String getTitle() { return title; }
+    public void setTitle(String title) { this.title = title; }
 
-    // -- Getters and Setters --
-    public java.util.UUID getId(){return id;}
-    public void setId(java.util.UUID v){this.id=v;}
-    public String getTitle(){return title;}
-    public void setTitle(String v){this.title=v;}
-    public String getDescription(){return description;}
-    public void setDescription(String v){this.description=v;}
-    public double getPriceAmount(){return priceAmount;}
-    public void setPriceAmount(double v){this.priceAmount=v;}
-    public String getPriceCurrency(){return priceCurrency;}
-    public void setPriceCurrency(String v){this.priceCurrency=v;}
-    public String getCategory(){return category;}
-    public void setCategory(String v){this.category=v;}
-    public String getCity(){return city;}
-    public void setCity(String v){this.city=v;}
-    public Double getLat(){return lat;}
-    public void setLat(Double v){this.lat=v;}
-    public Double getLon(){return lon;}
-    public void setLon(Double v){this.lon=v;}
-    public String getStatus(){return status;}
-    public void setStatus(String v){this.status=v;}
-    public String getSlug(){return slug;}
-    public void setSlug(String v){this.slug=v;}
-    public OffsetDateTime getPublishedAt(){return publishedAt;}
-    public void setPublishedAt(OffsetDateTime v){this.publishedAt=v;}
-    public OffsetDateTime getCreatedAt(){return createdAt;}
-    public void setCreatedAt(OffsetDateTime v){this.createdAt=v;}
-    public OffsetDateTime getUpdatedAt(){return updatedAt;}
-    public void setUpdatedAt(OffsetDateTime v){this.updatedAt=v;}
+    public String getDescription() { return description; }
+    public void setDescription(String description) { this.description = description; }
+
+    public BigDecimal getPriceAmount() { return priceAmount; }
+    public void setPriceAmount(BigDecimal priceAmount) { this.priceAmount = priceAmount; }
+
+    public String getCurrency() { return currency; }
+    public void setCurrency(String currency) { this.currency = currency; }
+
+    public String getCategory() { return category; }
+    public void setCategory(String category) { this.category = category; }
+
+    public String getCity() { return city; }
+    public void setCity(String city) { this.city = city; }
+
+    public Double getLat() { return lat; }
+    public void setLat(Double lat) { this.lat = lat; }
+
+    public Double getLon() { return lon; }
+    public void setLon(Double lon) { this.lon = lon; }
+
+    public String getStatus() { return status; }
+    public void setStatus(String status) { this.status = status; }
+
+    public String getSlug() { return slug; }
+    public void setSlug(String slug) { this.slug = slug; }
+
+    public OffsetDateTime getPublishedAt() { return publishedAt; }
+    public void setPublishedAt(OffsetDateTime publishedAt) { this.publishedAt = publishedAt; }
 }
