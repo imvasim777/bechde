@@ -6,8 +6,14 @@ spring:
   jpa:
     hibernate:
       ddl-auto: validate
+    properties:
+      hibernate.default_schema: listings
+  flyway:
+    enabled: true
+    create-schemas: true
+    schemas: listings
 server:
-  port: 8080
+  port: ${PORT:8081}
 management:
   endpoints:
     web:

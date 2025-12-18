@@ -1,0 +1,13 @@
+server:
+  port: ${PORT:8086}
+
+spring:
+  data:
+    mongodb:
+      uri: ${MONGO_URI:mongodb://localhost:27017/bechde}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info

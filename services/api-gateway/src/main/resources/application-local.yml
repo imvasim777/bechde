@@ -1,0 +1,24 @@
+server:
+  port: 8080
+spring:
+  cloud:
+    gateway:
+      routes:
+        - id: listings
+          uri: http://localhost:8081
+          predicates: [ Path=/listings/** ]
+        - id: auth
+          uri: http://localhost:8082
+          predicates: [ Path=/auth/** ]
+        - id: users
+          uri: http://localhost:8083
+          predicates: [ Path=/users/** ]
+        - id: payments
+          uri: http://localhost:8084
+          predicates: [ Path=/payments/** ]
+        - id: media
+          uri: http://localhost:8085
+          predicates: [ Path=/media/** ]
+        - id: chat
+          uri: http://localhost:8086
+          predicates: [ Path=/chats/** ]

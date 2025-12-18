@@ -1,0 +1,24 @@
+server:
+  port: ${PORT:8082}
+
+spring:
+  datasource:
+    url: ${DB_URL:jdbc:postgresql://localhost:5432/bechde}
+    username: ${DB_USER:bechde}
+    password: ${DB_PASS:bechde}
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        default_schema: ${DB_SCHEMA:auth}
+  flyway:
+    enabled: true
+    create-schemas: true
+    schemas: ${DB_SCHEMA:auth}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
