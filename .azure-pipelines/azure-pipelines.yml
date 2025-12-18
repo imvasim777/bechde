@@ -1,14 +1,65 @@
-trigger: { branches: { include: [ main ] } }
-pool: { vmImage: 'ubuntu-latest' }
-variables: { JDK_VERSION: '17', ACR_NAME: 'youracr', AKS_NAMESPACE: 'bechde-dev' }
+trigger:
+  branches:
+    include:
+      - main
+      - feature/*
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+variables:
+  JDK_VERSION: '17'
+  NODE_VERSION: '20'
+  ACR_NAME: 'youracr'
+  AKS_NAMESPACE: 'bechde-dev'
+  WORKDIR_WEB: 'web/bechde-web'
+
 stages:
   - stage: Build_Test
     jobs:
       - job: MavenBuild
+        displayName: 'Backend: Build + Test (Jacoco >=80%)'
         steps:
           - task: JavaToolInstaller@0
-            inputs: { versionSpec: '$(JDK_VERSION)', jdkArchitectureOption: 'x64' }
+            inputs:
+              versionSpec: ''
+              jdkArchitectureOption: 'x64'
           - script: |
               cd services/listings-service
               mvn -B -DskipTests=false clean verify
-            displayName: 'Build + Test (Jacoco >=80%)'
+            displayName: 'Build + Test (listings-service)'
+
+      - job: WebSSRBuild
+        displayName: 'Web: Angular SSR Build + Tests (>=80% coverage)'
+        steps:
+          - task: NodeTool@0
+            inputs:
+              versionSpec: ''
+
+          - script: |
+              cd $(WORKDIR_WEB)
+              npm ci
+            displayName: 'Install deps (web)'
+
+          - script: |
+              cd $(WORKDIR_WEB)
+              npm run test:ci
+            displayName: 'Unit tests + coverage (web)'
+
+          - script: |
+              cd $(WORKDIR_WEB)
+              npm run build:ssr
+            displayName: 'Build SSR (web)'
+
+          - task: PublishTestResults@2
+            inputs:
+              testResultsFiles: '**/TEST-*.xml'
+              testRunTitle: 'Web Unit Tests'
+            condition: succeededOrFailed()
+
+          - task: PublishCodeCoverageResults@2
+            inputs:
+              codeCoverageTool: 'Cobertura'
+              summaryFileLocation: '$(WORKDIR_WEB)/coverage/**/cobertura-coverage.xml'
+              reportDirectory: '$(WORKDIR_WEB)/coverage'
+            condition: succeededOrFailed()

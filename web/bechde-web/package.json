@@ -7,7 +7,10 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "serve:ssr:bechde-web": "node dist/bechde-web/server/server.mjs"
+    "serve:ssr:bechde-web": "node dist/bechde-web/server/server.mjs",
+    "dev:ssr": "ng run bechde-web:serve-ssr",
+    "build:ssr": "ng build && ng run bechde-web:server",
+    "test:ci": "ng test --watch=false --code-coverage"
   },
   "private": true,
   "dependencies": {
@@ -21,7 +24,8 @@
     "@angular/ssr": "^20.0.2",
     "express": "^5.2.1",
     "rxjs": "~7.8.0",
-    "tslib": "^2.3.0"
+    "tslib": "^2.3.0",
+    "zone.js": "^0.15.1"
   },
   "devDependencies": {
     "@angular/build": "^20.0.2",
